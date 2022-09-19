@@ -55,12 +55,6 @@ resource "aws_key_pair" "aws_key" {
   public_key = tls_private_key.key.public_key_openssh
 }
 
-# resource "aws_key_pair" "aws-key" {
-#   key_name = "ansible-host"
-#   public_key = file("/home/gl1tch/.ssh/keys/aws/aws_key.pub")
-# }
-
-
 resource "aws_security_group" "allow_ssh" {
   name = "allow_ssh"
   description = "Allow SSH traffic"
@@ -102,7 +96,7 @@ resource "aws_security_group" "allow_http" {
 resource "aws_instance" "server" {
   count = var.instance_count
   ami = var.ami
-  instance_type = var.instance_type
+  instance_type = var.instance_type # here we define with the variable instance_count how many servers we want to create (see variables.tf)
   key_name = aws_key_pair.aws_key.key_name
   associate_public_ip_address = true
   subnet_id = aws_subnet.main.id

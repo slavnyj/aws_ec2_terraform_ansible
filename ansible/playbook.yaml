@@ -1,0 +1,19 @@
+- hosts: aws_ec2
+  become: yes
+  tasks:
+    - name: Update apt cache and install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Allow all access to tcp port 80
+      ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+        
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
